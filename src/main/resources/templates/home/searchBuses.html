@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	 	<title>Search Buses</title>
+	 			<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	 	
+	</head>
+	<body>
+		 <div>
+			  <h2>Hello <span th:utext="${userName}"></span>, You can now search for your tickets.</h2>
+			  <a th:href="@{/logout}">Sign out</a>
+			  <br>
+			  <br>
+			  <input type="text" th:name="source" id="source" placeholder="Source">
+			  <input type="text" th:name="destination" id="destination" placeholder="Destination">
+			  <input type="text" th:name="travels" id="travels" placeholder="Travels">
+			  <form th:action="@{/dashboard/searchBuses}" method="post" >
+			  	<table id="myTable" border="1px">
+			  		<thead>
+			  			<tr>
+			  				<th>Source</th>
+			  				<th>Destination</th>
+			  				<th>Travels</th>
+			  				<th>Price</th>
+			  				<th>Seats Remaining</th>
+			  				<th>Book</th>
+			  			</tr>
+			  		</thead>
+			  		<tbody>
+			  			<tr th:each="bus: ${buses}">
+			  				<td id="insideSource" th:text="${bus.source}"></td>
+			  				<td id="insideDestination"th:text="${bus.destination}"></td>
+			  				<td id="insideTravels"th:text="${bus.travels}"></td>
+			  				<td th:text="${bus.price}"></td>
+			  				<td th:text="${bus.seats_remaining}"></td>	
+			  				<td><input type="radio" th:name="book" th:value="${bus.busid}" required></td>		  				
+			  			</tr>
+			  		</tbody>
+			  	</table>
+			  	<br>
+			  	<button type="submit">Book</button>
+			  </form>
+			  <br>
+			  <div>Go back to <a th:href="@{/dashboard}">Dashboard</a></div>
+			  <script>
+			  $(document).ready(function(){
+					  $("#source").on("keyup", function() {
+					    var value = $(this).val().toLowerCase();
+					    $("#myTable tr #insideSource").filter(function() {
+						      $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase()[0].indexOf(value[0]) != -1);
+						      if(value == '') {
+						    	  $(this).parent().toggle(true);
+						      }
+						});
+					  });
+					
+						  $("#destination").on("keyup", function() {
+						    var value = $(this).val().toLowerCase();
+						    $("#myTable tr #insideDestination").filter(function() {
+						      $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase()[0].indexOf(value[0]) != -1)
+						      if(value == '') {
+						    	  $(this).parent().toggle(true);
+						      }
+						    });
+						  });
+
+					
+						  $("#travels").on("keyup", function() {
+						    var value = $(this).val().toLowerCase();
+						    $("#myTable tr #insideTravels").filter(function() {
+						      $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1 && $(this).text().toLowerCase()[0].indexOf(value[0]) != -1)
+						      if(value == '') {
+						    	  $(this).parent().toggle(true);
+						      }
+						    });
+						  });
+			  });
+			  </script>
+		 </div>
+	</body>
+</html>

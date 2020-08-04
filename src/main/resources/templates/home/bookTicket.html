@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Login</title>
+		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	</head>
+	<body>
+		<!-- <div role="alert" th:if="${param.error}">
+		   The email or password is incorrect!
+		</div> -->
+		<h2> <span th:utext="${userName}"></span>, Enter the ticket details.</h2>
+			<div>
+				<label for="source">Source</label>
+	          	<input type="text" name="source" th:value="${bus.source}" id="source" readonly>
+          	</div>
+          	<div>
+	          	<label for="destination">Destination</label>
+				<input type="text" name="destination" th:value="${bus.destination}" id="destination" readonly>
+			</div>
+			<div>
+				<label for="travels">Travels</label>
+				<input type="text" name="travels"th:value="${bus.travels}" id="travels" readonly>
+			</div>
+			<div>
+				<label for="price">Unit Price</label>
+				<input type="text" name="price" th:value="${bus.price}" id="price" readonly>
+			</div>
+			<div>
+				<label for="quantity">Quantity</label>
+			    <input type="text" id="quantity" name="quantity" placeholder="Quantity" required autofocus>
+		    </div>
+		    <div id="passengerDetails"></div>
+		    <button id="bookButton" >Book</button>
+		    <span id="errorMessage"></span>
+		<div>Go back to <a th:href="@{/dashboard}">Dashboard</a></div>
+		<script th:inline="javascript">
+			$(document).ready(function(){
+				  $("#quantity").on("keyup", function() {
+					  	$("#passengerDetails").empty();
+					    var value = $(this).val();
+					    if(value == 0 || value > 42) {
+					    	$("#bookButton").attr("disabled", true);
+					    	console.log("No");
+					    } else {
+					    	$("#bookButton").removeAttr("disabled");
+							for(i=0; i < value; i++) {
+								$("#passengerDetails").append("<div><input type='text' id= 'passengerfirst" + i + "' name='passengerfirst" + i + "' placeholder='Passenger " + (i+1) + " First Name' required> <input type='text' id= 'passengersecond" + i + "'name='passengersecond" + i + "' placeholder='Passenger " + (i+1) + " Second Name' required></div><br>");
+							}
+					    }
+				  });
+				  $("#bookButton").on("click", function() {
+					    var quantity = $("#quantity").val();
+					    var passengers = "";
+					    for(index = 0; index < quantity; index++) {
+					    	var firstname = $("#passengerfirst" + index).val();
+					    	var secondname = $("#passengersecond" + index).val();
+					    	passengers += firstname + " " + secondname;
+					    	if (index != (quantity-1)) {
+					    		passengers += ",";
+					    	}
+					    }
+					    var userid = [[${userId}]];
+					  	var busid = [[${bus.busid}]];
+					  	var price = [[${bus.price}]];
+						var booking = {
+								userid: userid,
+								busid: busid,
+								totalprice: price * quantity,
+								passengers: passengers,
+								quantity: quantity
+						};
+						$.ajax({
+				            url: '/dashboard/bookTickets',
+				            type: 'post',
+				            dataType: 'json',
+				            contentType: 'application/json',
+				            data: JSON.stringify(booking),
+				            success: function (data) {
+				            },
+				        });
+						window.location.href = "/dashboard/success";
+				  })
+			});
+			
+		</script>
+	</body>
+</html>

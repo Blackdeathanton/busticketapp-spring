@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	 	<title>Success</title>
+	</head>
+	<body>
+		 <div>
+			  <h2>Congratulations <span th:utext="${userName}"></span>, Your ticket has been booked.</h2>
+			  <a th:href="@{/dashboard/searchBuses}">Search Buses</a>
+			  <a th:href="@{/dashboard/myBookings}">My Bookings</a>
+			  <a th:href="@{/logout}">Sign out</a>
+			  
+		 </div>
+	</body>
+</html>

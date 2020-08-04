@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org">
+	<head>
+	 <title>Register</title>
+	 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	</head>
+	<body>
+	 <div class="container">
+	     <form role="form" method="POST" th:action="@{/register}" th:object="${user}">
+	      	 <div>
+	             <div>
+	             	<div role="alert" th:if="${msg}" th:utext="${msg}">
+	     		 </div>
+	             </div>
+	         </div>
+	         <div>
+	             <div></div>
+	             <div>
+	                 <h2>Register</h2>
+	                 <hr>
+	             </div>
+	         </div>
+	         <div>
+	             <div>
+	                 <label for="name">First Name</label>
+	             </div>
+	             <div>
+	                 <div>
+	                     <div>
+	                         <input type="text" th:field="*{firstname}" id="firstname"
+	                                placeholder="First Name" required autofocus>
+	                     </div>
+	                 </div>
+	             </div>
+	         </div>
+	         <div>
+	             <div>
+	                 <label for="name">Last Name</label>
+	             </div>
+	             <div>
+	                 <div>
+	                     <div>
+	                         <input type="text" th:field="*{lastname}" id="lastname"
+	                                placeholder="Last name" required autofocus>
+	                     </div>
+	                 </div>
+	             </div>
+	         </div>
+	         <div>
+	             <div>
+	                 <label for="email">Email</label>
+	             </div>
+	             <div>
+	                 <div>
+	                     <div>
+	                         <input type="text" th:field="*{email}" class="form-control" id="email"
+	                                placeholder="Email" required autofocus>
+	                     </div>
+	                 </div>
+	             </div>
+	             <div>
+	                 <div>
+	                         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+	                         </span>
+	                 </div>
+	             </div>
+	         </div>
+	         <div>
+	             <div>
+	                 <label for="password">Password</label>
+	             </div>
+	             <div>
+	                 <div>
+	                     <div>
+	                         <input type="password" th:field="*{password}" class="form-control" id="password"
+	                                placeholder="Password" required>
+	                     </div>
+	                 </div>
+	             </div>
+	             <div>
+	                 <div>
+	                         <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+	                         </span>
+	                 </div>
+	             </div>
+	         </div>
+	         <div>
+	             <div></div>
+	             <div>
+	                 <button type="submit">Register</button>
+	             </div>
+	         </div>
+	     </form>
+	 </div>
+	</body>
+</html>
